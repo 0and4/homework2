@@ -10,41 +10,46 @@ class StringStack extends Stack {
 	int size,top;
 	StringStack(int size){
 		this.size=size;
-		stack=new String[this.size];
-		top=this.size;
+		this.stack=new String[size];
+		this.top=-1;
 	}
 	@Override
 	int length() {
-		return size; //스택의 크기(길이) 리턴
+		return size;
 	}
 	@Override
 	String pop() {
-		int tmp=top;
-		top++;
-		return stack[tmp]; //입력받은 값만큼의 크기인 스택을 리턴
+		if(top==-1) {
+			return null;
+		}
+		else {
+			return stack[top--];
+		}
 	}
 	@Override
 	boolean push(String ob) {
-		if(top>0) {
-			stack[top-1]=ob;
-			top--;
-			return true; //문자열을 top에서부터 저장(push)
-		}
-		else
+		if(top==size-1) {
 			return false;
+		}
+		else {
+			stack[++top]=ob;
+			return true;
+		}
 	}
 }
 public class StackManager {
 	public static void main(String args[]) {
 		Scanner sc = new Scanner(System.in);
-		String val;
-		StringStack stack=new StringStack(5);
+		System.out.print(">> ");
+		String val=sc.nextLine();
+		String[] words=val.split(" ");
+		int size=words.length;
+		StringStack stack=new StringStack(size);
 		while(true) {
-			System.out.print(">> ");
-			for(int i=0;i<stack.length();i++) {
-				val=sc.next();
-				stack.push(val); //문자열을 5개 읽어 스택 객체 저장
+			for(int i=0;i<size;i++) {
+				stack.push(words[i]);
 			}
+			
 			int len=stack.length();
 			if(len==0) {
 				System.out.print("현재 스택에 저장된 문자열 없음");
@@ -57,5 +62,4 @@ public class StackManager {
 			break;
 		}
 	}
-
 }
