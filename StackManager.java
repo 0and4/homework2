@@ -6,33 +6,40 @@ abstract class Stack{
 	abstract boolean push(String ob);
 }
 class StringStack extends Stack {
-	private String stack[];
+	String stack[];
 	int size,top;
 	StringStack(int size){
 		this.size=size;
 		this.stack=new String[size];
-		this.top=-1;
+		this.top=0;
 	}
 	@Override
 	int length() {
-		return size;
+		int len = 0;
+		for(int i=0;i<size;i++) {
+			if (stack[i]!=null) {
+				len++;
+			}
+		}
+		return len;
 	}
 	@Override
 	String pop() {
-		if(top==-1) {
+		if(top<0) {
 			return null;
 		}
 		else {
-			return stack[top--];
+			top--;
+			return stack[top];
 		}
 	}
 	@Override
 	boolean push(String ob) {
-		if(top==size-1) {
+		if(top>=size) {
 			return false;
 		}
 		else {
-			stack[++top]=ob;
+			stack[top++]=ob;
 			return true;
 		}
 	}
@@ -45,21 +52,15 @@ public class StackManager {
 		String[] words=val.split(" ");
 		int size=words.length;
 		StringStack stack=new StringStack(size);
-		while(true) {
-			for(int i=0;i<size;i++) {
-				stack.push(words[i]);
+		for(int i=0;i<size;i++) {
+			stack.push(words[i]);
+		}
+		int len=stack.length();
+		if(len==0) { System.out.print("현재 스택에 저장된 문자열 없음"); }
+		else {
+			for(int i=0;i<len;i++) {
+				System.out.print(stack.pop()+" ");
 			}
-			
-			int len=stack.length();
-			if(len==0) {
-				System.out.print("현재 스택에 저장된 문자열 없음");
-			}
-			else {
-				for(int i=0;i<len;i++) {
-					System.out.print(stack.pop()+" ");
-				}
-			}
-			break;
 		}
 	}
 }
